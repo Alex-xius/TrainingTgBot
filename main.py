@@ -3,8 +3,7 @@ from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
-from aiogram.types import ContentType
-from aiogram import F
+
 
 # Вместо BOT TOKEN HERE нужно вставить токен вашего бота, полученный у @BotFather
 load_dotenv()
@@ -28,36 +27,19 @@ async def process_help_command(message: Message):
     )
 
 
-# Этот хэндлер будет срабатывать на отправку боту фото
-async def send_photo_echo(message: Message):
-    print(message)
-    await message.reply_photo(message.photo[0].file_id)
-
-
-# Хедлер для обработки стикеров
-async def send_sticker_echo(message: Message):
-    print(message)
-    await message.reply_sticker(message.sticker.file_id)
-
-
-async def send_animation_echo(message: Message):
-    print(message)
-    await message.reply_animation(message.animation.file_id)
-
-
-# Этот хэндлер будет срабатывать на любые ваши текстовые сообщения,
+# Этот хэндлер будет срабатывать на любые ваши сообщения,
 # кроме команд "/start" и "/help"
+@dp.message()
 async def send_echo(message: Message):
-    await message.reply(text=message.text)
+    try:
+        await message.send_copy(chat_id=message.chat.id)
+    except TypeError:
+        await message.reply(
+            text='Данный тип апдейтов не поддерживается '
+                 'методом send_copy'
+        )
 
-
-# Регистрируем хэндлеры
-dp.message.register(process_start_command, Command(commands='start'))
-dp.message.register(process_help_command, Command(commands='help'))
-dp.message.register(send_photo_echo, F.photo)
-dp.message.register(send_sticker_echo, F.sticker)
-dp.message.register(send_animation_echo, F.animation)
-dp.message.register(send_echo)
 
 if __name__ == '__main__':
     dp.run_polling(bot)
+    
