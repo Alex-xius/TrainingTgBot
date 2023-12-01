@@ -7,7 +7,7 @@ from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
 
 load_dotenv()
-BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 # Создаем объекты бота и диспетчера
 bot = Bot(BOT_TOKEN)
