@@ -70,7 +70,7 @@ def create_inline_kb(width: int,
 # и отправлять в чат клавиатуру
 @dp.message(CommandStart())
 async def process_start_command(message: Message):
-    keyboard = create_inline_kb(4 ,**BUTTONS)
+    keyboard = create_inline_kb(4, **BUTTONS)
     await message.answer(
         text='Это инлайн-клавиатура, сформированная функцией '
              '<code>create_inline_kb</code>',
