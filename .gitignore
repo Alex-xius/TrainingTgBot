@@ -5,4 +5,4 @@ venv/
 .vscode/
 venv/
 __pycache__/
-todo.txt
+a.py
