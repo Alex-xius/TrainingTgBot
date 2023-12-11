@@ -2,7 +2,7 @@ from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state, State, StatesGroup
-from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.redis import RedisStorage, Redis
 from aiogram.types import (CallbackQuery, InlineKeyboardButton,
                            InlineKeyboardMarkup, Message, PhotoSize)
 from environs import Env
@@ -12,8 +12,11 @@ env.read_env()
 
 BOT_TOKEN = env('BOT_TOKEN')
 
-# Инициализируем хранилище (создаем экземпляр класса MemoryStorage)
-storage = MemoryStorage()
+# Инициализируем Redis
+redis = Redis(host='localhost')
+
+# Инициализируем хранилище состояний
+storage = RedisStorage(redis=redis)
 
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher(storage=storage)
